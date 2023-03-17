@@ -1,6 +1,7 @@
 #include "LeetCodeProject.h"
 #include <iostream>
 #include <stack>
+#include<algorithm> // sort
 
 Solution::Solution()
 {
@@ -18,6 +19,17 @@ void PrintVector::print_2d_vec(vector<vector<int>>& vec)
 		cout << endl;
 	}
 }
+
+void PrintVector::print_1d_vec(vector<int>& vec)
+{
+
+	for (size_t i = 0; i < vec.size(); ++i)
+	{
+		cout << vec[i] << " ";
+	}
+	cout << endl;
+}
+
 
 #pragma region DP
 
@@ -108,41 +120,82 @@ int DP::tribonacci(int n)
 #pragma endregion
 
 #pragma region DFSBFS
-// 111. Minimum Depth of Binary Tree
-int DFSBFS::minDepth(TreeNode* root) {
-	TreeNode *tmproot = nullptr;
 
-	return 1;
-}
 #pragma endregion
 
 #pragma region Backtracking
 
-// 39. Combination Sum
+// 39. Combination Sum (unique)
+/*
+
+             1            2        3
+      /      |  \        / \       |
+     1       2   3      2   3      3
+   / | \    / \   \    / \   \     |
+  1  2  3  2   3   3  2   3   3    3
+
+*/
 vector<vector<int>> Backtracking::combinationSum(vector<int>& candidates, int target)
 {
 	vector<vector<int>> out;
 	vector<int> subOut;
 
 	_helper(out, subOut, candidates, target, 0, 0);
+	print_2d_vec(out);
 	return out;
 }
-void Backtracking::_helper(vector<vector<int>>& ans, vector<int>& subAns,
+void Backtracking::_helper(vector<vector<int>>& ans, vector<int> subAns,
 	const vector<int>& candidates, const int& target, const int& sum, const int& i)
 {
-	if (i == candidates.size() || sum > target)
-		return;
-
 	if (sum == target)
 	{
 		ans.push_back(subAns);
 		return;
 	}
 
+	if (i == candidates.size() || sum > target)
+		return;
+
+	// Self
 	subAns.push_back(candidates[i]);
 	_helper(ans, subAns, candidates, target, sum + candidates[i], i);
+
+	// Next
 	subAns.pop_back();
 	_helper(ans, subAns, candidates, target, sum, i + 1);
+}
+
+// 40. Combination Sum II
+vector<vector<int>> Backtracking::combinationSum2(vector<int>& candidates, int target)
+{
+	vector<vector<int>> out;
+	vector<int> subOut;
+	sort(candidates.begin(), candidates.end());
+	_helper2(out, subOut, candidates, target, 0, 0);
+
+	print_2d_vec(out);
+	return out;
+}
+
+void Backtracking::_helper2(vector<vector<int>>& ans, vector<int>& subAns,
+	const vector<int>& candidates, const int& target, const int& sum, const int& i)
+{
+	if (sum == target)
+	{
+		ans.push_back(subAns);
+		return;
+	}
+
+	if (i == candidates.size() || sum > target)
+		return;
+
+	for (int j = i; j < candidates.size(); ++j) {
+		if (j > i && candidates[j] == candidates[j - 1])
+			continue;
+		subAns.push_back(candidates[j]);
+		_helper2(ans, subAns, candidates, target, sum + candidates[j], j+1);
+		subAns.pop_back();
+	}
 }
 #pragma endregion
 

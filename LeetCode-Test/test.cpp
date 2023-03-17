@@ -10,9 +10,9 @@ class CheckVector
 {
 public:
 	template<size_t SIZE>
-	void test_2dVector(const vector<vector<int>>& vec, const array<int, SIZE>& expected_arr)
+	void test_2dVector(int& arrIdx, const vector<vector<int>>& vec, const array<int, SIZE>& expected_arr)
 	{
-		auto arrIdx = 0;
+		arrIdx = 0;
 		for (size_t i = 0; i < vec.size(); ++i)
 		{
 			for (size_t j = 0; j < vec[i].size(); ++j)
@@ -31,7 +31,8 @@ protected:
 	{
 		Solution sol;
 		vector<vector<int>> vec = sol.generate(numRows);
-		test_2dVector(vec, expected_arr);
+		int res_len = 0;
+		test_2dVector(res_len, vec, expected_arr);
 	}
 };
 
@@ -41,10 +42,21 @@ protected:
 	void test_39(vector<int> candidates, int target, const array<int, SIZE> expected_arr)
 	{
 		vector<vector<int>> res = sol.combinationSum(candidates, target);
-
-		test_2dVector(res, expected_arr);
+		int res_len = 0;
+		test_2dVector(res_len, res, expected_arr);
 	}
 
+	template<size_t SIZE>
+	void test_40(vector<int> candidates, int target, const array<int, SIZE> expected_arr)
+	{
+		vector<vector<int>> res = sol.combinationSum2(candidates, target);
+		int res_len = 0;
+		//test_2dVector(res_len, res, expected_arr);
+
+		//EXPECT_EQ(res_len, expected_arr.size());
+	}
+
+protected:
 	Solution sol;
 };
 
@@ -84,7 +96,6 @@ protected:
 	void test_other()
 	{
 		TreeNode* root = nullptr;
-		sol.minDepth(root);
 	}
 
 protected:
@@ -111,7 +122,7 @@ TEST_F(OtherTests, Test20) {
 	test_20(")", false);
 }
 
-TEST_F(BacktrackingTests, TestBacktracking)
+TEST_F(BacktrackingTests, Test39)
 {
 	vector<int> candidates = { 2,3,6,7 };
 	int target = 7;
@@ -122,6 +133,19 @@ TEST_F(BacktrackingTests, TestBacktracking)
 	target = 8;
 	array<int, 9> expected_arr_2{ {2, 2, 2, 2, 2, 3, 3, 3, 5} };
 	test_39(candidates, target, expected_arr_2);
+}
+
+TEST_F(BacktrackingTests, Test40)
+{
+	vector<int> candidates = { 8,1,2,7,6,1,5 };
+	int target = 8;
+	array<int, 10> expected_arr_1{ {1,1,6, 1, 2, 5, 1, 7, 2, 6} };
+	// test_40(candidates, target, expected_arr_1);
+
+	candidates = { 2,5,2,1,2}; // 1 2 2 2 5
+	target = 5;
+	array<int, 4> expected_arr_2{ {1, 2, 2, 5} };
+	test_40(candidates, target, expected_arr_2);
 }
 
 TEST_F(OtherTests, Test26) {

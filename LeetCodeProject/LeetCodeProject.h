@@ -24,7 +24,7 @@ class DllExport PrintVector
 {
 public:
 	void print_2d_vec(vector<vector<int>>& vec);
-
+	void print_1d_vec(vector<int>& vec);
 private:
 
 };
@@ -43,20 +43,23 @@ class DllExport DFSBFS
 {
 public:
 
-	int minDepth(TreeNode* root);
-
 };
 
-class DllExport Backtracking
+class DllExport Backtracking : public PrintVector
 {
 public:
 
 	vector<vector<int>> combinationSum(vector<int>& candidates, int target); // 39
 
+	vector<vector<int>> combinationSum2(vector<int>& candidates, int target); // 40
+
 private:
 
-	void _helper(vector<vector<int>>& ans, vector<int>& subAns, const vector<int>& candidates,
+	void _helper(vector<vector<int>>& ans, vector<int> subAns, const vector<int>& candidates,
 		const int& target, const int& sum, const int& i);
+
+	void _helper2(vector<vector<int>>& ans, vector<int>& subAns,
+		const vector<int>& candidates, const int& target, const int& sum, const int& i);
 };
 
 class DllExport Solution : public DP, public DFSBFS, public Backtracking
