@@ -1,11 +1,23 @@
 #include "LeetCodeProject.h"
 #include <iostream>
+#include <stack>
 
 Solution::Solution()
 {
 
 }
 
+void PrintVector::print_2d_vec(vector<vector<int>>& vec)
+{
+	for (size_t i = 0; i < vec.size(); ++i)
+	{
+		for (size_t j = 0; j < vec[i].size(); ++j)
+		{
+			cout << vec[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
 
 #pragma region DP
 
@@ -95,23 +107,101 @@ int DP::tribonacci(int n)
 }
 #pragma endregion
 
+#pragma region DFSBFS
+// 111. Minimum Depth of Binary Tree
+int DFSBFS::minDepth(TreeNode* root) {
+	TreeNode *tmproot = nullptr;
 
-bool Solution::isValid(string s) {
-	bool  out = true;
-	return out;
-
+	return 1;
 }
+#pragma endregion
 
+#pragma region Backtracking
 
-void PrintVector::print_2d_vec(vector<vector<int>>& vec)
+// 39. Combination Sum
+vector<vector<int>> Backtracking::combinationSum(vector<int>& candidates, int target)
 {
-	for (size_t i = 0; i < vec.size(); ++i)
+	vector<vector<int>> out;
+	vector<int> subOut;
+
+	_helper(out, subOut, candidates, target, 0, 0);
+	return out;
+}
+void Backtracking::_helper(vector<vector<int>>& ans, vector<int>& subAns,
+	const vector<int>& candidates, const int& target, const int& sum, const int& i)
+{
+	if (i == candidates.size() || sum > target)
+		return;
+
+	if (sum == target)
 	{
-		for (size_t j = 0; j < vec[i].size(); ++j)
-		{
-			cout << vec[i][j] << " ";
-		}
-		cout << endl;
+		ans.push_back(subAns);
+		return;
 	}
+
+	subAns.push_back(candidates[i]);
+	_helper(ans, subAns, candidates, target, sum + candidates[i], i);
+	subAns.pop_back();
+	_helper(ans, subAns, candidates, target, sum, i + 1);
+}
+#pragma endregion
+
+// 20. Valid Parentheses
+bool Solution::isValid(string s) 
+{
+	stack<char> left_brackets;
+	for (auto tmp : s)
+	{
+		if (tmp == '(' || tmp == '[' || tmp == '{')
+		{
+			left_brackets.push(tmp);
+		}
+		else 
+		{
+			if (left_brackets.empty()) // not yet offset
+			{
+				return false;
+			}
+			if ((left_brackets.top() == '(' && tmp == ')')
+			 || (left_brackets.top() == '[' && tmp == ']')
+			 || (left_brackets.top() == '{' && tmp == '}'))
+			{
+				left_brackets.pop();
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	return left_brackets.empty();
 }
 
+// 26. Remove Duplicates from Sorted Array
+int Solution::removeDuplicates(vector<int>& nums)
+{
+	int idx = 0;
+	for (size_t i = 0; i < nums.size(); ++i)
+	{
+		if (nums[idx] != nums[i])
+		{
+			nums[++idx] = nums[i];
+		}
+		else
+		{
+			continue;
+		}
+	}
+	return idx+1;
+}
+
+// 2413. Smallest Even Multiple
+int Solution::smallestEvenMultiple(int n)
+{
+	if (!(n % 2))
+	{
+		return n;
+	}
+	return n+n;
+}
