@@ -20,11 +20,14 @@ struct DllExport TreeNode {
 	TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
 };
 
+
 class DllExport PrintVector
 {
 public:
 	void print_2d_vec(vector<vector<int>>& vec);
-	void print_1d_vec(vector<int>& vec);
+
+	template <class T>
+	void print_1d_vec(vector<T>& vec);
 private:
 
 };
@@ -62,7 +65,22 @@ private:
 		const vector<int>& candidates, const int& target, const int& sum, const int& i);
 };
 
-class DllExport Solution : public DP, public DFSBFS, public Backtracking
+class DllExport Solution4 : public PrintVector
+{
+public:
+	vector<double> sampleStats(vector<int>& count);//1093
+	int countBalls(int lowLimit, int highLimit); //1742
+	string largestGoodInteger(string num); //2264
+
+
+private:
+
+	double _get_median(vector<int>& count, const int& num);
+};
+
+
+class DllExport Solution : public DP, public DFSBFS, 
+	public Backtracking, public Solution4
 {
 public:
 
@@ -71,5 +89,7 @@ public:
 	bool isValid(string s); // 20. (string & stack)
 	int removeDuplicates(vector<int>& nums); // 26. (array & two pointers)
 	int smallestEvenMultiple(int n); // 2413
+
+
 };
 

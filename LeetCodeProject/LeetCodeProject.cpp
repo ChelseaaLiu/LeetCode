@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stack>
 #include<algorithm> // sort
+#include <numeric>
 
 Solution::Solution()
 {
@@ -20,7 +21,8 @@ void PrintVector::print_2d_vec(vector<vector<int>>& vec)
 	}
 }
 
-void PrintVector::print_1d_vec(vector<int>& vec)
+template <class T>
+void PrintVector::print_1d_vec(vector<T>& vec)
 {
 
 	for (size_t i = 0; i < vec.size(); ++i)
@@ -166,6 +168,20 @@ void Backtracking::_helper(vector<vector<int>>& ans, vector<int> subAns,
 }
 
 // 40. Combination Sum II
+
+/*
+[1, 2, 2, 3] (°ÅªK)
+
+		   1            2       x     3
+	  /    |  \        / \      
+	 2     x    3     2   3    
+   /   \              |       
+  2     3             3 
+  |
+  3
+
+*/
+
 vector<vector<int>> Backtracking::combinationSum2(vector<int>& candidates, int target)
 {
 	vector<vector<int>> out;
@@ -258,3 +274,153 @@ int Solution::smallestEvenMultiple(int n)
 	}
 	return n+n;
 }
+
+
+// 1093. Statistics from a Large Sample
+/*
+* count.length == 256
+* 0 <= count[i] <= 10^9
+* 1 <= sum(count) <= 10^9
+* The mode of the sample that count represents is unique.
+*/
+vector<double> Solution4::sampleStats(vector<int>& count)
+{
+	vector<double> out = { 255, 0, 0, 0, 0 }; // [minimum, maximum, mean, median, mode]
+	int num = accumulate(count.begin(), count.end(), 0); // 1 <= sum(count) <= 10^9
+	int maxCount = 0;
+
+	for (int i = 0; i < count.size(); ++i)
+	{
+		if (count[i] > 0)
+		{
+			// * minimum
+			if (i < out[0])
+				out[0] = i;
+
+			// * maximum
+			if (i > out[1])
+				out[1] = i;
+
+			// * sum (mean = sum / num)
+			out[2] += uint64_t(count[i]) * uint64_t(i); // 10 ^ 9 * 10 ^ 3
+
+			// * mode
+			if (count[i] > maxCount)
+			{
+				maxCount = count[i];
+				out[4] = i;
+			}
+		}
+	}
+
+	// * mean
+	if (num > 1)
+	{
+		out[2] /= num;
+		out[2] = round(out[2] * 100000) / 100000;
+	}
+
+	// * median
+	out[3] = _get_median(count, num);
+
+	return out;
+}
+
+double Solution4::_get_median(vector<int>& count, const int& num)
+{
+	/*
+	* 1. [0,1,3,4,0,0,0, ...]
+	* [1,2,2,2,3,3,3,3], median_idx : [3, 4]
+	* idx : 0 -> 3 -> 7
+	* 2. [0,4,3,2,2,0,0,0, ...],
+	* [1,1,1,1,2,2,2,3,3,4,4], median_idx : 5
+	* idx : 3 -> 6 -> 8 -> 10
+	*/
+
+	int out = 0;
+	int idx = 0;
+	int previous_idx = 0;
+	int median_idx = num / 2;
+	bool is_odd = num % 2;
+
+	for (int i = 0; i < count.size(); ++i)
+	{
+		if (count[i] > 0)
+		{
+			idx += count[i];
+			if (idx - 1 >= median_idx)
+			{
+				if (is_odd)
+					return i;
+
+				else
+				{
+					if (idx - count[i] == median_idx)
+						return (i + previous_idx) / 2.0;
+					else
+						return i;
+				}
+			}
+			previous_idx = i;
+		}
+	}
+
+	out = round(out * 100000) / 100000;
+	return out;
+}
+
+
+// 1742. Maximum Number of Balls in a Box
+
+/*
+* 1 <= lowLimit <= highLimit <= 10^5
+* box number : ex., 321 => 3+2+1
+*/
+
+int Solution4::countBalls(int lowLimit, int highLimit)
+{
+	// * 1 <= lowLimit <= highLimit <= 10^5
+	int out = 0;
+	vector<int> ball_count(45, 0); // 9*5
+	for (int ball_num = lowLimit; ball_num < highLimit + 1; ++ball_num)
+	{
+		int box_sum = 0; // box number
+		int tmp_ball_num = ball_num;
+		while (tmp_ball_num > 0)
+		{
+			box_sum += tmp_ball_num % 10;
+			tmp_ball_num = tmp_ball_num / 10;
+		}
+
+		ball_count[box_sum - 1] += 1; // box_sum - 1 >= 0
+		if (ball_count[box_sum - 1] > out)
+			out = ball_count[box_sum - 1];
+	}
+
+	return out;
+}
+
+// 2264. Largest 3-Same-Digit Number in String
+/*
+* 3 <= num.length <= 1000
+* num only consists of digits
+*/
+string Solution4::largestGoodInteger(string num) 
+{
+	string out = "";
+
+	for (size_t i = 0; i < num.size(); ++i)
+	{
+		if (i + 2 < num.size() && num[i] == num[i + 1] && num[i + 1] == num[i + 2])
+		{
+			if (out == "")
+				out.push_back(num[i]);
+			else if (int(out[0]) < int(num[i]))
+				out = num[i];
+		}
+	}
+
+	out = out + out + out;
+	return out;
+}
+
