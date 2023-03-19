@@ -213,6 +213,77 @@ void Backtracking::_helper2(vector<vector<int>>& ans, vector<int>& subAns,
 		subAns.pop_back();
 	}
 }
+
+// 78. Subsets
+/*
+* 1 <= nums.length <= 10
+* -10 <= nums[i] <= 10
+* All the numbers of nums are unique.
+* Return the solution in any order
+
+	  1        2     3
+    /   \      | 
+   2     3     3     
+   |
+   3
+
+*/
+vector<vector<int>> Backtracking::subsets(vector<int>& nums)
+{
+	vector<vector<int>> out;
+	vector<int> subOut;
+
+	_helper3(out, subOut, nums, 0, false);
+
+	print_2d_vec(out);
+	return out;
+}
+
+void Backtracking::_helper3(vector<vector<int>>& ans, vector<int>& subAns,
+	const vector<int>& candidates, const int& i, const bool& isRepeated)
+{
+
+	ans.push_back(subAns);
+
+	if (i == candidates.size())
+		return;
+
+	for (int j = i; j < candidates.size(); ++j) {
+		if (isRepeated == true && j > i && candidates[j] == candidates[j - 1])
+			continue;
+		subAns.push_back(candidates[j]);
+		_helper3(ans, subAns, candidates, j + 1, isRepeated);
+		subAns.pop_back();
+	}
+}
+
+// 90. Subsets II
+vector<vector<int>> Backtracking::subsetsWithDup(vector<int>& nums) 
+{
+	vector<vector<int>> out;
+	vector<int> subOut;
+	sort(nums.begin(), nums.end());
+	_helper3(out, subOut, nums, 0, true);
+
+	print_2d_vec(out);
+	return out;
+}
+
+// 46. Permutations
+/*
+* 1 <= nums.length <= 6
+* -10 <= nums[i] <= 10
+* All the integers of nums are unique.
+*/
+vector<vector<int>> Backtracking::permute(vector<int>& nums)
+{
+	vector<vector<int>> out;
+	vector<int> subOut;
+
+	print_2d_vec(out);
+	return out;
+}
+
 #pragma endregion
 
 // 20. Valid Parentheses

@@ -36,7 +36,7 @@ class DllExport DP : public PrintVector
 {
 public : 
 
-	vector<vector<int>> generate(int numRows);
+	vector<vector<int>> generate(int numRows); // 118
 	int lengthOfLIS(vector<int>& nums);//300
 	int fib(int n); //509
 	int tribonacci(int n); // 1137
@@ -55,6 +55,10 @@ public:
 	vector<vector<int>> combinationSum(vector<int>& candidates, int target); // 39
 
 	vector<vector<int>> combinationSum2(vector<int>& candidates, int target); // 40
+	vector<vector<int>> subsets(vector<int>& nums); // 78
+	vector<vector<int>> subsetsWithDup(vector<int>& nums); // 90
+
+	vector<vector<int>> permute(vector<int>& nums); // 46
 
 private:
 
@@ -63,6 +67,9 @@ private:
 
 	void _helper2(vector<vector<int>>& ans, vector<int>& subAns,
 		const vector<int>& candidates, const int& target, const int& sum, const int& i);
+
+	void _helper3(vector<vector<int>>& ans, vector<int>& subAns, const vector<int>& candidates,
+		const int& i, const bool& isRepeated);
 };
 
 class DllExport Solution4 : public PrintVector

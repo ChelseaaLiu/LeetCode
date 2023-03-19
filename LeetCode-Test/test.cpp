@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 class CheckVector
 {
 public:
@@ -93,7 +92,8 @@ protected:
 
 	void test_other()
 	{
-		TreeNode* root = nullptr;
+		vector<int> nums = { 1, 2, 2 };
+		sol.subsetsWithDup(nums);
 	}
 
 protected:
@@ -220,3 +220,8 @@ TEST_F(Solution4Tests, Test1039) {
 
 }
 
+
+TEST_F(OtherTests, Tests)
+{
+	test_other();
+}
