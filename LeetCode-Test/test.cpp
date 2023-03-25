@@ -92,12 +92,21 @@ protected:
 
 	void test_other()
 	{
-		vector<int> nums = { 1, 2, 2 };
-		sol.subsetsWithDup(nums);
+
+		vector<vector<int>> vec;
+		vec.push_back({ 0,2 });
+		vec.push_back({ 0,5 });
+		vec.push_back({ 2,4 });
+		vec.push_back({ 1,6 });
+		vec.push_back({ 5,4 });
+
+		long long out = bdfs.countPairs(7, vec);
+		cout << "countPairs = " << out << endl;
 	}
 
 protected:
 	Solution sol;
+	BDFS bdfs;
 };
 
 class Solution4Tests : public ::testing::Test, public CheckVector {

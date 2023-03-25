@@ -59,6 +59,7 @@ public:
 	vector<vector<int>> subsetsWithDup(vector<int>& nums); // 90
 
 	vector<vector<int>> permute(vector<int>& nums); // 46
+	vector<vector<int>> permuteUnique(vector<int>& nums); // 47
 
 private:
 
@@ -70,6 +71,19 @@ private:
 
 	void _helper3(vector<vector<int>>& ans, vector<int>& subAns, const vector<int>& candidates,
 		const int& i, const bool& isRepeated);
+
+	void _helper4(vector<vector<int>>& ans, vector<int>& candidates, const int& i);
+};
+
+class DllExport BDFS
+{
+public:
+
+	long long countPairs(int n, vector<vector<int>>& edges);//2316
+
+private:
+	long long _get_group_element_num(vector<vector<int>>& group, vector<bool>& visit, int idx);
+
 };
 
 class DllExport Solution4 : public PrintVector

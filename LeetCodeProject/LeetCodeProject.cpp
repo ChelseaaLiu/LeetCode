@@ -274,17 +274,100 @@ vector<vector<int>> Backtracking::subsetsWithDup(vector<int>& nums)
 * 1 <= nums.length <= 6
 * -10 <= nums[i] <= 10
 * All the integers of nums are unique.
+
+* Input: nums = [1,2,3]
+* Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 */
 vector<vector<int>> Backtracking::permute(vector<int>& nums)
 {
 	vector<vector<int>> out;
-	vector<int> subOut;
+	_helper4(out, nums, 0);
+	// print_2d_vec(out);
+	return out;
+}
+void Backtracking::_helper4(vector<vector<int>>& ans, vector<int>& candidates, const int& i)
+{
+	if (i == candidates.size())
+	{
+		ans.push_back(candidates);
+		return;
+	}
 
-	print_2d_vec(out);
+	for (int j = i; j < candidates.size(); ++j)
+	{
+		swap(candidates[i], candidates[j]);
+		_helper4(ans, candidates, i + 1);
+		swap(candidates[i], candidates[j]);
+	}
+}
+
+// 47
+// [3,3,0,3]
+// [0,1,0,0,9]
+vector<vector<int>> Backtracking::permuteUnique(vector<int>& nums)
+{
+	vector<vector<int>> out;
+	vector<int> subOut;
+	// _helper5(out, subOut, nums, 0);
 	return out;
 }
 
 #pragma endregion
+
+
+#pragma region BFS DFS
+// 2316. Count Unreachable Pairs of Nodes in an Undirected Graph
+/*
+* [0][.......]
+* [1][.......]
+* [2][.......]
+* 
+*/
+
+long long BDFS::_get_group_element_num(vector<vector<int>>& group, vector<bool>& visit, int idx)
+{
+	long long count = 1;
+	visit[idx] = true;
+	for (size_t i = 0; i < group[idx].size(); ++i)
+	{
+		int tmp_idx = group[idx][i];
+		if (!visit[tmp_idx])
+			count += _get_group_element_num(group, visit, tmp_idx);
+	}
+	return count;
+}
+long long BDFS::countPairs(int n, vector<vector<int>>& edges) 
+{
+	long long out = 0;
+	long long visitedCount = 0;
+	vector<vector<int>> group(n);
+	vector<bool> visit(n, false);
+
+	// input group
+	for (size_t i = 0; i < edges.size(); ++i)
+	{
+		int node1 = edges[i][0];
+		int node2 = edges[i][1];
+
+		group[node1].push_back(node2);
+		group[node2].push_back(node1);
+	}
+
+	for (int i = 0; i < n; i++) 
+	{
+		if (!visit[i])
+		{
+			long long count = _get_group_element_num(group, visit, i);
+			out += visitedCount * count;
+			visitedCount += count;
+		}
+	}
+	return out;
+}
+
+
+#pragma endregion
+
 
 // 20. Valid Parentheses
 bool Solution::isValid(string s) 
