@@ -19,6 +19,7 @@ void PrintVector::print_2d_vec(vector<vector<int>>& vec)
 		}
 		cout << endl;
 	}
+	cout << endl;
 }
 
 template <class T>
@@ -304,11 +305,45 @@ void Backtracking::_helper4(vector<vector<int>>& ans, vector<int>& candidates, c
 // 47
 // [3,3,0,3]
 // [0,1,0,0,9]
+
+bool IsDuplicated(int st, int end, vector<int>& nums) {
+	for (int k = st; k < end; k++) {
+		if (nums[k] == nums[end]) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void Backtracking::_helper5(vector<vector<int>>& ans, vector<int>& candidates, const int& i)
+{
+	if (i == candidates.size())
+	{
+		ans.push_back(candidates);
+		
+		return;
+	}
+
+	for (int j = i; j < candidates.size(); ++j)
+	{
+		if ((j == i || candidates[i] != candidates[j]) && !IsDuplicated(i, j, candidates))
+		{
+			swap(candidates[i], candidates[j]);
+			_helper5(ans, candidates, i + 1);
+			swap(candidates[i], candidates[j]);
+		}
+	}
+}
+
 vector<vector<int>> Backtracking::permuteUnique(vector<int>& nums)
 {
 	vector<vector<int>> out;
 	vector<int> subOut;
-	// _helper5(out, subOut, nums, 0);
+	// sort(nums.begin(), nums.end());
+	_helper5(out, nums, 0);
+
+	print_2d_vec(out);
 	return out;
 }
 
@@ -316,6 +351,16 @@ vector<vector<int>> Backtracking::permuteUnique(vector<int>& nums)
 
 
 #pragma region BFS DFS
+BDFS::BDFS()
+{
+
+}
+
+//BDFS::~BDFS()
+//{
+//
+//}
+
 // 2316. Count Unreachable Pairs of Nodes in an Undirected Graph
 /*
 * [0][.......]
@@ -323,7 +368,6 @@ vector<vector<int>> Backtracking::permuteUnique(vector<int>& nums)
 * [2][.......]
 * 
 */
-
 long long BDFS::_get_group_element_num(vector<vector<int>>& group, vector<bool>& visit, int idx)
 {
 	long long count = 1;
@@ -336,7 +380,7 @@ long long BDFS::_get_group_element_num(vector<vector<int>>& group, vector<bool>&
 	}
 	return count;
 }
-long long BDFS::countPairs(int n, vector<vector<int>>& edges) 
+long long BDFS::countPairs(int n, vector<vector<int>>& edges)
 {
 	long long out = 0;
 	long long visitedCount = 0;
@@ -364,6 +408,31 @@ long long BDFS::countPairs(int n, vector<vector<int>>& edges)
 	}
 	return out;
 }
+
+
+
+// 133. Clone Graph
+
+//unordered_map<Node*, Node*> copies;
+
+//Node* cloneGraph(Node* node)
+//{
+//	//if (node == NULL)
+//	//	return NULL;
+//
+//
+//	if (copies.find(node) == copies.end())
+//	{
+//
+//	}
+//	//{
+//	// copies[node] = new Node(node->val);
+//
+//	// Node* root = new Node(node->val);
+//	// Node* root = new Node();
+//
+//	return root;
+//}
 
 
 #pragma endregion

@@ -64,6 +64,13 @@ protected:
 		//EXPECT_EQ(res_len, expected_arr.size());
 	}
 
+	void test_47()
+	{
+		vector<int> nums = { 2,2,1,1};
+		nums = { 1, 2, 1, 2 };
+		vector<vector<int>> res = sol.permuteUnique(nums);
+	}
+
 protected:
 	Solution sol;
 };
@@ -182,6 +189,10 @@ TEST_F(BacktrackingTests, Test40)
 	target = 5;
 	array<int, 4> expected_arr_2{ {1, 2, 2, 5} };
 	test_40(candidates, target, expected_arr_2);
+}
+TEST_F(BacktrackingTests, Test47)
+{
+	test_47();
 }
 
 TEST_F(OtherTests, Test26) {

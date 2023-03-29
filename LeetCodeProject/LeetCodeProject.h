@@ -1,4 +1,5 @@
 #pragma once
+
 #ifdef MATHLIBRARY_EXPORTS
 #define DllExport __declspec(dllexport)
 #else
@@ -7,19 +8,32 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
+
+//#include "TreeNode.h"
 
 using namespace std;
 
 // Definition for a binary tree node.
-struct DllExport TreeNode {
-	int val;
-	TreeNode* left;
-	TreeNode* right;
-	TreeNode() : val(0), left(nullptr), right(nullptr) {}
-	TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-	TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
-};
 
+
+//class DllExport Node {
+//public:
+//	int val;
+//	vector<Node*> neighbors;
+//	//Node() {
+//	//	val = 0;
+//	//	neighbors = vector<Node*>();
+//	//}
+//	//Node(int _val) {
+//	//	val = _val;
+//	//	neighbors = vector<Node*>();
+//	//}
+//	//Node(int _val, vector<Node*> _neighbors) {
+//	//	val = _val;
+//	//	neighbors = _neighbors;
+//	//}
+//};
 
 class DllExport PrintVector
 {
@@ -40,12 +54,6 @@ public :
 	int lengthOfLIS(vector<int>& nums);//300
 	int fib(int n); //509
 	int tribonacci(int n); // 1137
-};
-
-class DllExport DFSBFS
-{
-public:
-
 };
 
 class DllExport Backtracking : public PrintVector
@@ -73,26 +81,32 @@ private:
 		const int& i, const bool& isRepeated);
 
 	void _helper4(vector<vector<int>>& ans, vector<int>& candidates, const int& i);
+
+	void _helper5(vector<vector<int>>& ans, vector<int>& candidates, const int& i);
 };
 
 class DllExport BDFS
 {
 public:
+	BDFS();
 
-	long long countPairs(int n, vector<vector<int>>& edges);//2316
+	long long countPairs(int n, vector<vector<int>>& edges); //2316
+	//Node* cloneGraph(Node* node); //133
 
 private:
 	long long _get_group_element_num(vector<vector<int>>& group, vector<bool>& visit, int idx);
 
+private:
+	//unordered_map<Node*, Node*> _copies;
 };
 
 class DllExport Solution4 : public PrintVector
 {
 public:
+
 	vector<double> sampleStats(vector<int>& count);//1093
 	int countBalls(int lowLimit, int highLimit); //1742
 	string largestGoodInteger(string num); //2264
-
 
 private:
 
@@ -100,8 +114,7 @@ private:
 };
 
 
-class DllExport Solution : public DP, public DFSBFS, 
-	public Backtracking, public Solution4
+class DllExport Solution : public DP, public Backtracking, public Solution4
 {
 public:
 
@@ -110,7 +123,5 @@ public:
 	bool isValid(string s); // 20. (string & stack)
 	int removeDuplicates(vector<int>& nums); // 26. (array & two pointers)
 	int smallestEvenMultiple(int n); // 2413
-
-
 };
 
