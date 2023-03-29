@@ -1,39 +1,13 @@
 #pragma once
 
-#ifdef MATHLIBRARY_EXPORTS
-#define DllExport __declspec(dllexport)
-#else
-#define DllExport __declspec(dllimport)
-#endif
-
 #include <vector>
 #include <string>
 #include <unordered_map>
 
-//#include "TreeNode.h"
+#include "TreeNode.h"
 
 using namespace std;
 
-// Definition for a binary tree node.
-
-
-//class DllExport Node {
-//public:
-//	int val;
-//	vector<Node*> neighbors;
-//	//Node() {
-//	//	val = 0;
-//	//	neighbors = vector<Node*>();
-//	//}
-//	//Node(int _val) {
-//	//	val = _val;
-//	//	neighbors = vector<Node*>();
-//	//}
-//	//Node(int _val, vector<Node*> _neighbors) {
-//	//	val = _val;
-//	//	neighbors = _neighbors;
-//	//}
-//};
 
 class DllExport PrintVector
 {
@@ -89,15 +63,20 @@ class DllExport BDFS
 {
 public:
 	BDFS();
+	~BDFS();
 
-	long long countPairs(int n, vector<vector<int>>& edges); //2316
-	//Node* cloneGraph(Node* node); //133
+	long long countPairs(int n, vector<vector<int>>& edges); // 2316
+
+
+	Node* createInputNode(vector<vector<int>>& vec);
+	Node* cloneGraph(Node* node); //133
+	void free_copies_memories(); //133
 
 private:
 	long long _get_group_element_num(vector<vector<int>>& group, vector<bool>& visit, int idx);
 
 private:
-	//unordered_map<Node*, Node*> _copies;
+	unordered_map<Node*, Node*> _copies; //133
 };
 
 class DllExport Solution4 : public PrintVector

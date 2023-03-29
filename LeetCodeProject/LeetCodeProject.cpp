@@ -144,7 +144,7 @@ vector<vector<int>> Backtracking::combinationSum(vector<int>& candidates, int ta
 	vector<int> subOut;
 
 	_helper(out, subOut, candidates, target, 0, 0);
-	print_2d_vec(out);
+	// print_2d_vec(out);
 	return out;
 }
 void Backtracking::_helper(vector<vector<int>>& ans, vector<int> subAns,
@@ -190,7 +190,7 @@ vector<vector<int>> Backtracking::combinationSum2(vector<int>& candidates, int t
 	sort(candidates.begin(), candidates.end());
 	_helper2(out, subOut, candidates, target, 0, 0);
 
-	print_2d_vec(out);
+	// print_2d_vec(out);
 	return out;
 }
 
@@ -236,7 +236,7 @@ vector<vector<int>> Backtracking::subsets(vector<int>& nums)
 
 	_helper3(out, subOut, nums, 0, false);
 
-	print_2d_vec(out);
+	// print_2d_vec(out);
 	return out;
 }
 
@@ -266,7 +266,7 @@ vector<vector<int>> Backtracking::subsetsWithDup(vector<int>& nums)
 	sort(nums.begin(), nums.end());
 	_helper3(out, subOut, nums, 0, true);
 
-	print_2d_vec(out);
+	// print_2d_vec(out);
 	return out;
 }
 
@@ -343,7 +343,7 @@ vector<vector<int>> Backtracking::permuteUnique(vector<int>& nums)
 	// sort(nums.begin(), nums.end());
 	_helper5(out, nums, 0);
 
-	print_2d_vec(out);
+	// print_2d_vec(out);
 	return out;
 }
 
@@ -356,10 +356,10 @@ BDFS::BDFS()
 
 }
 
-//BDFS::~BDFS()
-//{
-//
-//}
+BDFS::~BDFS()
+{
+
+}
 
 // 2316. Count Unreachable Pairs of Nodes in an Undirected Graph
 /*
@@ -410,29 +410,59 @@ long long BDFS::countPairs(int n, vector<vector<int>>& edges)
 }
 
 
-
 // 133. Clone Graph
-
 //unordered_map<Node*, Node*> copies;
+Node* get_root(vector<vector<int>>& vec, int idx)
+{
+	if (vec[idx].size() <= 0 || idx >= vec[idx].size())
+	{
+		return NULL;
+	}
 
-//Node* cloneGraph(Node* node)
-//{
-//	//if (node == NULL)
-//	//	return NULL;
-//
-//
-//	if (copies.find(node) == copies.end())
-//	{
-//
-//	}
-//	//{
-//	// copies[node] = new Node(node->val);
-//
-//	// Node* root = new Node(node->val);
-//	// Node* root = new Node();
-//
-//	return root;
-//}
+	Node* root = new Node(idx + 1, {});
+	for (size_t i = 0; i < vec[idx].size(); i++)
+	{
+		root->neighbors.push_back(get_root(vec, vec[idx][i]));
+	}
+	return root;
+}
+Node* createInputNode(vector<vector<int>>& vec)
+{
+	return get_root(vec, 0);
+}
+
+
+void BDFS::free_copies_memories()
+{
+	unordered_map<int, int> map;
+
+	map[1] = 10;
+	map[3] = 30;
+	map[5] = 50;
+
+	for (auto& it : map) {
+		// Do stuff
+		cout << it.first << endl;
+	}
+}
+
+Node* BDFS::cloneGraph(Node* root)
+{
+	if (root == NULL)
+		return NULL;
+
+
+	if (_copies.find(root) == _copies.end())
+	{
+		_copies[root] = new Node(root->val, {});
+		for (Node* node: root->neighbors)
+		{
+			_copies[root]->neighbors.push_back(cloneGraph(node));
+		}
+	}
+
+	return _copies[root];
+}
 
 
 #pragma endregion
