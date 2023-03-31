@@ -431,7 +431,6 @@ Node* createInputNode(vector<vector<int>>& vec)
 	return get_root(vec, 0);
 }
 
-
 void BDFS::free_copies_memories()
 {
 	unordered_map<int, int> map;

@@ -67,7 +67,7 @@ public:
 
 	long long countPairs(int n, vector<vector<int>>& edges); // 2316
 
-
+	// ¼È°±
 	Node* createInputNode(vector<vector<int>>& vec);
 	Node* cloneGraph(Node* node); //133
 	void free_copies_memories(); //133

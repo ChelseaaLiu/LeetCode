@@ -34,7 +34,7 @@ public:
     XInfo x_info;
 };
 
-char GetOperator(char* str, int& initial_idx)
+char GetOperator(string str, int& initial_idx)
 {
     char operator_char = ' ';
 
@@ -52,9 +52,9 @@ char GetOperator(char* str, int& initial_idx)
     return operator_char;
 }
 
-void GetNumVec(char* str, int& idx, vector<char>& num, int& x_idx)
+void GetNumVec(string str, int& idx, vector<char>& num, int& x_idx)
 {
-    int length = strlen(str);
+    int length = str.size();
     int j = 0;
     for (int i = idx; i >= 0; --i)
     {
@@ -90,9 +90,9 @@ string GetXNum(int x_idx, int n)
     return to_string(int(n * pow(10.0, x_idx)) % 10);
 }
 
-bool GetNumVecs(char* str, vector<char>& num1_vec, vector<char>& num2_vec, vector<char>& num3_vec, NumInfo& num_info)
+bool GetNumVecs(string str, vector<char>& num1_vec, vector<char>& num2_vec, vector<char>& num3_vec, NumInfo& num_info)
 {
-    int initial_idx = strlen(str) - 1;
+    int initial_idx = str.size() - 1;
 
     GetNumVec(str, initial_idx, num3_vec, num_info.x_info.x_idx);
     num_info.x_info.x_idx_group = num_info.x_info.x_idx != -1 ? 2 : num_info.x_info.x_idx_group;
@@ -174,10 +174,10 @@ string GetX(vector<char>& num1_vec, const vector<char>& num2_vec, const vector<c
 
 }
 
-void MissingDigit(char* str)
+string MissingDigit(string str)
 {
     // n1 + n2 = n3
-    printf("%s, x = ", str);
+    cout << str << endl;
 
     string out = "";
 
@@ -188,24 +188,24 @@ void MissingDigit(char* str)
     
     if (false == GetNumVecs(str, num1_vec, num2_vec, num3_vec, num_info))
     {
-        return;
+        return out;
     }
 
     out = GetX(num1_vec, num2_vec, num3_vec, num_info);
 
     cout << out << endl;
-    return;
+    return out;
 }
 
 int main()
 {
     string str = "4 - 2 = x";
-    MissingDigit(&str[0]);
+    MissingDigit(str);
 
     str = "40 - 2x = 15";
-    MissingDigit(&str[0]);
+    MissingDigit(str);
 
     str = "1x0 * 12 = 1200";
-    MissingDigit(&str[0]);
+    MissingDigit(str);
 }
 
