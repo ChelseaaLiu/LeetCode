@@ -41,6 +41,12 @@ TEST(CLTest, __MissingDigit__)
 	EXPECT_EQ(MissingDigit("1x530 / 234 = 45"), "0");
 	EXPECT_EQ(MissingDigit("10x30 / 234 = 45"), "5");
 	EXPECT_EQ(MissingDigit("x0530 / 234 = 45"), "1");
+
+	EXPECT_EQ(MissingDigit("10530/2x4=45"), "3");
+	EXPECT_EQ(MissingDigit("10530/234=x5"), "4");
+	EXPECT_EQ(MissingDigit("1x530/234=45"), "0");
+	EXPECT_EQ(MissingDigit("10x30/234=45"), "5");
+	EXPECT_EQ(MissingDigit("x0530/234=45"), "1");
 }
 
 
@@ -48,6 +54,8 @@ TEST(CLTest, __HTMLElements__)
 {
 	EXPECT_EQ(HTMLElements("<div><div><b></b></div></p>"), "div");
 	EXPECT_EQ(HTMLElements("<div>abc</div><p><em><i>test test test</b></em></p>"), "i");
+	EXPECT_EQ(HTMLElements("<div><div><b></b></div></p>"), "div");
+	//EXPECT_EQ(HTMLElements(">"), "false");
 }
 
 TEST(CLTest, __ElementMerger__)

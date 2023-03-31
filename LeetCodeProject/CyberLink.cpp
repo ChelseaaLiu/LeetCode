@@ -67,7 +67,7 @@ public:
 
 private:
 
-#pragma region Set Missing Digit Info
+#pragma region Set Missing Digit Info v1
     // _SetNumInfo : 
     // 1. Split str
     // 2. Get x position
@@ -121,6 +121,7 @@ private:
     }
 #pragma endregion
 
+#pragma region Set Missing Digit Info v1
     bool _SetNumInfo_2(const string& str, NumInfo& num_info)
     {
         // num1 * num2 = num3 -> "234 * 45 = 1053x"
@@ -175,7 +176,7 @@ private:
         }
         return true;
     }
- 
+#pragma endregion
 
     bool _GetNxStr(const NumInfo& num_info, int& nx)
     {
@@ -256,7 +257,7 @@ string GetTag(const string& str, int& i)
     {
     }
 
-    if (i <= 0)
+    if (i <= 0 || left_idx + 1 >= str.size())
         return "false";
 
     string left_tag = str.substr(left_idx+1, i - left_idx-1);
@@ -269,8 +270,6 @@ string HTMLElements(string str)
 
     for (int i = 0; i < str.size(); ++i)
     {
-        char tmpChar = str[i];
-        char tmpChar1 = str[i+1];
         if ((i + 1) < str.size() && str[i] == '<' && str[i + 1] != '/')
         {
             string left_tag = GetTag(str, i);
